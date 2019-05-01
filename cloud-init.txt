@@ -25,7 +25,6 @@ log_file = "./qiibee.log"
 color = true
 [footprint]
 cache_size = 16384' > /root/readnode.toml
-
 echo 'enode://0c04931c5ff8df69fce0e937102cd6368e51987edc0b440c744e5e14e6c356a599eeac2b86dfa8c7f0b48f8718bb525345e2e2a748b02bfa6b04bc78a170f649@35.157.158.70:30300' > /root/bootnodes.txt
 echo 'enode://a35668e15888250d12f6cc58a51b71dad39245beb32ef2ed49de57a2f7cca74403d3cda0b7867f31b3360acb831b76e2007eff031464192e129ae0d7ccb4e0e6@35.159.42.87:30300' >> /root/bootnodes.txt
 echo '{
@@ -177,16 +176,12 @@ echo '{
     }
   }
 }' > /root/spec.json
-
 bash <(curl https://get.parity.io -L) -r stable
 (crontab -l ; echo "* * * * * /root/check.sh") | sort - | uniq - | crontab -
 touch /root/check.sh
 chmod +x /root/check.sh
-
 echo '#!/bin/sh
-
 SCREENPID=`pidof SCREEN`
-
 if pgrep -x "parity" > /dev/null
 then
     echo "Running $SCREENPID"
@@ -196,5 +191,4 @@ else
     echo "Stopped $SCREENPID AND STARTED!"
 fi
 ' > /root/check.sh
-
 bash <(/usr/bin/screen -dmS "Node" /usr/bin/parity --config /root/readnode.toml) -r stable
